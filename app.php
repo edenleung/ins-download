@@ -5,7 +5,6 @@ use React\Filesystem\Filesystem;
 
 require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/download.php';
-require __DIR__ . '/test.php';
 
 $loop = \React\EventLoop\Factory::create();
 $client = new Browser($loop);
