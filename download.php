@@ -22,6 +22,7 @@ final class Download
         if (!file_exists($filePath)) {
             $this->client->get($url)->then(function (ResponseInterface $response) use ($filePath){
                 file_put_contents($filePath, $response->getBody());
+                // TODO IN PI3, HAVE SOMETHING ERRORS
                 // $this->filesystem->file($filePath)->open('cwt')->then(function ($stream) use ($response) {
                 //     $stream->end($response->getBody());
                 // });
