@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>instagram 解析服务</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="https://unpkg.com/vue@2.5.22/dist/vue.min.js"></script>
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+    <style>
+        #app {
+            width: 500px;
+            margin: auto;
+        }
+
+        .res {
+            display: flex;
+            flex-direction: column;
+            background: #000;
+            padding: 10px 10px;
+
+        }
+
+        .res a {
+            text-align: center;
+            color: #fff;
+            word-break: break-all;
+        }
+
+        .form {
+            display: flex;
+            margin: 10px auto;
+            margin-top: 40vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="form">
+            <el-input v-model="url"></el-input>
+            <el-button @click="handleClick" :loading="loading">解析</el-button>
+        </div>
+
+
+        <div class="res" v-if="data.length">
+            <a :href="item.local" :data-remote="item.remote" target="__blank" v-for="(item, index) in data" :key="index">{{ item.local }}</a>
+        </div>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                loading: false,
+                data: [],
+                url: 'https://www.instagram.com/p/Bs1BKNbg5HU/'
+            }
+        },
+        methods: {
+            handleClick() {
+                this.loading = true
+                axios.post('./app.php', { url: this.url }).then(res => {
+                    this.loading = false
+                    const { code, msg } = res.data
+                    if (code) {
+                        alert(msg)
+                    } else {
+                        this.data = res.data.data
+                    }
+                })
+            }
+        }
+    })
+</script>
+
+</html>
